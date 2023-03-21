@@ -1,0 +1,18 @@
+    CREATE OR REPLACE FUNCTION get_customer(start INTEGER, Theend INTEGER)
+    RETURNS TABLE(first_name varchar(45),last_name varchar(45))  AS
+    $$
+    BEGIN
+        IF start < 0 OR Theend <0 or start >600 or Theend>600
+        THEN
+            RAISE EXCEPTION 'This interval is out of bound, please enter an interval between 1 and 600';
+        ELSE
+
+        RETURN QUERY
+        SELECT customer.first_name, customer.last_name
+        FROM customer
+        WHERE address_id BETWEEN start AND Theend
+        ORDER BY address_id;
+        END IF;
+    END $$
+
+    LANGUAGE plpgsql;

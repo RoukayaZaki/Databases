@@ -1,0 +1,15 @@
+CREATE FUNCTION retrieve_address()
+    returns TABLE(address_id INTEGER, address CHARACTER varying)
+    language plpgsql
+as
+$$
+BEGIN 
+        RETURN QUERY
+        SELECT address.address_id, address.address
+        FROM address
+        WHERE address.address LIKE '%11%' AND city_id BETWEEN 400 AND 600;
+    END;
+$$;
+
+ALTER FUNCTION retrieve_address() OWNER TO postgres;
+
