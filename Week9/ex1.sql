@@ -20,58 +20,14 @@ UPDATE accounts SET bankname = 'sberbank' WHERE name='account3';
 UPDATE accounts SET bankname = 'both' WHERE name='account4';
 
 create table Ledger(
-    id integer primary key,
-    fromId integer,
-    toId integer,
-    fee float8,
-    amount float8,
+    id INTEGER primary key,
+    fromId INTEGER,
+    toId INTEGER,
+    fee INTEGER,
+    amount INTEGER,
     transactionDateTime date
 );
 
-EX1
-
-
-BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;;
-UPDATE accounts
-SET credit = credit - 500
-WHERE id = 1;
-
-UPDATE accounts
-SET credit = credit + 500
-WHERE id = 3;
-INSERT INTO Ledger (fromId, toId, fee, amount, transactionDateTime) values( 1, 3, 500, 0, LOCALTIME);
-COMMIT;
---ROLLBACK;
-END;
-
-BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;;
-UPDATE accounts
-SET credit = credit - 700
-WHERE id = 2;
-
-UPDATE accounts
-SET credit = credit + 700
-WHERE id = 1;
-INSERT INTO Ledger (fromId, toId, fee, amount, transactionDateTime) values( 2, 1, 700, 0, LOCALTIME);
-COMMIT;
---ROLLBACK;
-END;
-
-BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;;
-UPDATE accounts
-SET credit = credit - 100
-WHERE id = 2;
-
-UPDATE accounts
-SET credit = credit + 100
-WHERE id = 3;
-INSERT INTO Ledger (fromId, toId, fee, amount, transactionDateTime) values( 2, 3, 100, 0, LOCALTIME);
-COMMIT;
---ROLLBACK;
-END;
-
-
-EX2
 
 CREATE FUNCTION transfer(sender INTEGER, receiver INTEGER, money float8)
 RETURNS INTEGER LANGUAGE plpgsql AS
